@@ -218,7 +218,7 @@ const PrintableInvoice: React.FC<PrintableInvoiceProps | BarcodeScannerInvoicePr
               <Printer className="h-4 w-4 mr-2" />
               Print Invoice
             </Button>
-            <Button size="sm" variant="ghost" onClick={onClose}>
+            <Button size="sm" variant="destructive" onClick={onClose} className="hover:bg-red-100">
               <X className="h-4 w-4" />
             </Button>
           </div>
