@@ -89,6 +89,25 @@ router.post('/invoices', auth, async (req, res) => {
       createdBy: req.user.userId
     });
 
+    // Update product stock
+    for (const item of items) {
+      const product = await Product.findById(item.productId);
+      if (!product) {
+        return res.status(404).json({ 
+          message: `Product not found: ${item.productId}` 
+        });
+      }
+      
+      if (product.stock < item.quantity) {
+        return res.status(400).json({ 
+          message: `Insufficient stock for product: ${product.name}. Available: ${product.stock}, Requested: ${item.quantity}` 
+        });
+      }
+      
+      product.stock -= item.quantity;
+      await product.save();
+    }
+
     await invoice.save();
     
     // Populate the response
